@@ -10,14 +10,13 @@ type BoardItemProps = {
    onClick: (e: React.SyntheticEvent) => void;
 }
 
-export const BoardItem = ({ found, item, onClick }: BoardItemProps) => (
+export const BoardItem = React.memo(({ found, item, onClick }: BoardItemProps) => (
    <div
       className={`${item.value} board__item ${found ? 'found' : ''}`}
       onClick={onClick}
-      title={item.value}
    >
       <section>{item.front}</section>
       {item.type}
       {item.value}
    </div>
-);
+));
