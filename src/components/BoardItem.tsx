@@ -12,11 +12,11 @@ type BoardItemProps = {
 
 export const BoardItem = ({ found, item, onClick }: BoardItemProps) => (
    <div
-      className={`${item.value} board-item ${found ? 'found' : ''}`}
+      className={`${item.value} board__item ${found ? 'found' : ''}`}
       onClick={onClick}
       title={item.value}
    >
-      {item.front}
+      <section>{item.front}</section>
       {item.type}
       {item.value}
    </div>

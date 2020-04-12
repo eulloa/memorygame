@@ -1,0 +1,16 @@
+$bg-red: #FF0000;
+
+.board {
+  display: flex;
+  flex-wrap: wrap;
+  height: 900px;
+  margin: 0 auto;
+  padding: 1rem;
+
+  &__item {
+    width: 33.3333%;
+    &:hover {
+      background-color: $bg-red;
+    }
+  }
+}
