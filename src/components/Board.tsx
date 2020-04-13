@@ -8,7 +8,7 @@ type BoardProps = {
    children? : React.ReactChild;
 };
 
-export const Board = ({ children }: BoardProps) => {
+export const Board = React.memo(({ children }: BoardProps) => {
    const [board, setBoard] = useState<any>(BoardData);
    const [indexOne, setIndexOne] = useState<number | null>(null);
    const [indexTwo, setIndexTwo] = useState<number | null>(null);
@@ -73,4 +73,4 @@ export const Board = ({ children }: BoardProps) => {
          ))}
       </div>
    )
-}
+});
