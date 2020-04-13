@@ -1,29 +1,29 @@
 import * as React from 'react';
-import { useState } from 'react';
-import { BoardData } from '../data/BoardData';
+import { useEffect, useState } from 'react';
 import { BoardItem } from './BoardItem';
+import { BoardData } from '../data/BoardData';
+import { hasMatch, pairsToMatch } from './Controller';
 
 type BoardProps = {
    children? : React.ReactChild;
 };
 
-const hasMatch = (s1: string, s2: string): boolean => s1 === s2;
-
 export const Board = ({ children }: BoardProps) => {
    const [board, setBoard] = useState<any>(BoardData);
    const [indexOne, setIndexOne] = useState<number | null>(null);
    const [indexTwo, setIndexTwo] = useState<number | null>(null);
+   const [matchedPairs, setMatchedPairs] = useState<number>(0);
    const [selectedValueOne, setSelectedValueOne] = useState<string>('');
    const [selectedValueTwo, setSelectedValueTwo] = useState<string>('');
+   useEffect(() => checkMatch(), [selectedValueTwo]);
 
    const onClickHandler = (index: number) => (e: React.SyntheticEvent) => {
       const value = e.currentTarget.className[0];
-      console.log(value, index);
 
       if (!selectedValueOne) { 
          setSelectedValueOne(value);
          setIndexOne(index);
-         return; 
+         return;
       }
       if (!selectedValueTwo) { 
          setSelectedValueTwo(value);
@@ -39,15 +39,24 @@ export const Board = ({ children }: BoardProps) => {
       setSelectedValueTwo('');
    }
 
-   if (selectedValueOne && selectedValueTwo) {
-      if (hasMatch(selectedValueOne, selectedValueTwo)) {
-         // TODO: user has found a match, show the matching pair face up
-         console.log('match');
-         reset();
-      } else {
-         console.log('no match')
-         reset();
+   const checkMatch = () => {
+      if (Boolean(selectedValueOne) && Boolean(selectedValueTwo)) {
+         if (hasMatch(selectedValueOne, selectedValueTwo)) {
+            const updatedBoard = board.map((boardItem: any, i: number) => {
+               boardItem.found = i === indexOne || i === indexTwo ? true : boardItem.found;
+               return boardItem;
+            });
+            setBoard(updatedBoard);
+            setMatchedPairs(matchedPairs => matchedPairs + 1);
+            reset();
+         } else {
+            reset();
+         }
       }
+   }
+
+   if (matchedPairs === pairsToMatch) {
+      return <p>You win!</p>;
    }
 
    return (
@@ -59,6 +68,7 @@ export const Board = ({ children }: BoardProps) => {
                item={data}
                key={`board-item-${i}`}
                onClick={onClickHandler(i)}
+               selected={i === indexOne || i === indexTwo ? true : false}
             />
          ))}
       </div>

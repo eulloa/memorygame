@@ -8,15 +8,20 @@ type BoardItemProps = {
       value: string
    },
    onClick: (e: React.SyntheticEvent) => void;
+   selected?: boolean;
 }
 
-export const BoardItem = React.memo(({ found, item, onClick }: BoardItemProps) => (
+export const BoardItem = React.memo(({ found, item, onClick, selected }: BoardItemProps) => (
    <div
-      className={`${item.value} board__item ${found ? 'found' : ''}`}
+      className={`${item.value} board__item ${found ? 'found' : ''} ${selected ? 'selected': ''}`}
       onClick={onClick}
    >
-      <section>{item.front}</section>
-      {item.type}
-      {item.value}
+      <section>
+         {item.front}
+      </section>
+      <section className={`${selected ? '' : 'hide'} card__front`}>
+         {item.type}
+         {item.value}
+      </section>
    </div>
 ));

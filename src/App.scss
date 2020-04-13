@@ -1,4 +1,6 @@
 $bg-red: #FF0000;
+$bg-found: gold;
+$bg-selected: rgba(0, 0, 0, .25);
 
 .board {
   display: flex;
@@ -12,5 +14,19 @@ $bg-red: #FF0000;
     &:hover {
       background-color: $bg-red;
     }
+  }
+
+  .found {
+    background-color: $bg-found;
+    pointer-events: none;
+  }
+
+  .selected {
+    background-color: $bg-selected;
+    pointer-events: none;
+  }
+
+  .hide {
+    display: none;
   }
 }
