@@ -1,14 +1,19 @@
 $item-height: 300px;
 $bg-found: gold;
-$bg-selected: rgba(0, 0, 0, .25);
+$pointer-events-none: none;
 
-.board {
+.game {
   background: url(images/table.jpg);
   background-position: 100% 100%;
   background-repeat: no-repeat;
   background-size: cover;
+  min-height: 100vh;
+}
+
+.board {
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-evenly;
   margin: 0 auto;
   padding: 1rem;
 
@@ -20,35 +25,70 @@ $bg-selected: rgba(0, 0, 0, .25);
     }
   }
 
-  .bg-red {
-    background: url(images/red.png);
-    background-position: 50% 50%;
-    background-repeat: no-repeat;
-    background-size: contain;
-  }
-
-  .bg-blue {
-    background: url(images/blue.png);
-    background-position: 50% 50%;
-    background-repeat: no-repeat;
-    background-size: contain;
-  }
-
   section {
     display: inline-block;
+    position: absolute;
+
+    span {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translateX(-50%) translateY(-50%);
+    }
   }
 
   .found {
     background-color: $bg-found;
-    pointer-events: none;
+    pointer-events: $pointer-events-none;
   }
 
   .selected {
-    background-color: $bg-selected;
-    pointer-events: none;
+    pointer-events: $pointer-events-none;
   }
 
   .hide {
     display: none;
   }
+}
+
+/* entire container, keeps perspective */
+.flip-container {
+	perspective: 1000px;
+}
+
+.flipper-container.hover, .flipper.hover {
+  transform: rotateY(180deg);
+}
+
+.flip-container, .front, .back {
+	width: 200px;
+	height: 300px;
+}
+
+/* flip speed goes here */
+.flipper {
+	transition: 0.6s;
+	transform-style: preserve-3d;
+
+	position: relative;
+}
+
+/* hide back of pane during swap */
+.front, .back {
+	backface-visibility: hidden;
+
+	position: absolute;
+	top: 0;
+  left: 0;
+  
+  img {
+    width: 100%;
+  }
+}
+
+/* front pane, placed above back */
+.front {
+	z-index: 2;
+	/* for firefox 31 */
+	transform: rotateY(180deg);
 }
